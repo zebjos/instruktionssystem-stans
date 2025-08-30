@@ -1,0 +1,62 @@
+.admin-gate-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+  }
+  
+  .admin-keypad {
+    background: #ccc;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    width: 250px;
+  }
+  
+  .admin-display {
+    background: #111;
+    color: lime;
+    font-size: 2rem;
+    text-align: center;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    letter-spacing: 0.5rem;
+    font-family: monospace;
+  }
+  
+  .admin-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  
+  .admin-btn {
+    padding: 1rem;
+    font-size: 1.5rem;
+    border: none;
+    border-radius: 8px;
+    background: #eee;
+    box-shadow: inset 0 0 5px #aaa;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .admin-btn-green:hover {
+    background: rgb(36, 155, 85);
+  }
+  
+  .admin-btn-red:hover {
+    background: rgb(177, 59, 46);
+  }
+
+  .admin-btn-red {
+    background: rgb(231, 76, 60);
+    color: white;
+  }
+  
+  .admin-btn-green {
+    background: rgb(46, 204, 113);
+    color: white;
+  }
+  

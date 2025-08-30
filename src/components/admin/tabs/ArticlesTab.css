@@ -1,0 +1,97 @@
+.articles-tab {
+    padding: 1rem;
+    width: 100%;
+  }
+  
+  .articles-controls {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .articles-controls input,
+  .articles-controls select {
+    padding: 0.4rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  .articles-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+  }
+  
+  .articles-table th,
+  .articles-table td {
+    padding: 0.5rem;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+    overflow-wrap: break-word;
+    vertical-align: middle;
+  }
+  
+  /* Kolumnbredd justeras dynamiskt, men Åtgärder pushas ut */
+  .articles-table th.actions,
+  .articles-table td.actions {
+    text-align: right;
+    white-space: nowrap;
+    width: 1%;
+    padding-right: 0.5rem;
+  }
+  
+  .article-link {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .article-link:visited {
+    color: #007bff;
+  }
+  
+  .article-link:hover {
+    text-decoration: underline;
+  }
+  
+  .delete-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.3rem 0.6rem;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  
+  .delete-btn:hover {
+    background: #c0392b;
+  }
+  
+  .status.exists {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .status.missing {
+    color: red;
+    font-weight: bold;
+  }
+  
+  .media-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-variant-numeric: tabular-nums;
+  }
+  
+  .media-numbers {
+    min-width: 45px;
+    text-align: right;
+  }
+  
+  .media-emoji {
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+  

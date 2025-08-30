@@ -1,0 +1,81 @@
+.customers-tab {
+    padding: 1rem;
+  }
+  
+  .customer-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .customer-form input {
+    padding: 0.4rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    flex: 1;
+  }
+  
+  .customer-form button {
+    padding: 0.4rem 1rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    background-color: #faaf40;
+    border: none;
+    cursor: pointer;
+    color: white;
+  }
+  
+  .customer-form button:hover {
+    background-color: #eb8d00;
+    color: white;
+  }
+  
+  .customers-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+  
+  .customers-table th,
+  .customers-table td {
+    padding: 0.5rem;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+    overflow-wrap: break-word;
+  }
+  
+  .customers-table th:nth-child(1),
+  .customers-table td:nth-child(1) {
+    width: 60%;
+  }
+  
+  .customers-table th:nth-child(2),
+  .customers-table td:nth-child(2) {
+    width: 25%;
+  }
+  
+  .customers-table th:nth-child(3),
+  .customers-table td:nth-child(3) {
+    width: 15%;
+    text-align: right;
+  }
+  
+  .delete-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.3rem 0.6rem;
+    cursor: pointer;
+  }
+  
+  .delete-btn[disabled] {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .error-msg {
+    color: red;
+    margin-bottom: 1rem;
+  }  

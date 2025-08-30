@@ -1,0 +1,32 @@
+.tools-tab {
+    padding: 1rem;
+  }
+  
+  .export-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .export-btn {
+    display: inline-block;
+    padding: 0.6rem 1rem;
+    background-color: #faaf40;
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+  }
+  
+  .export-btn:hover {
+    background-color: #eb8d00;
+    color: white;
+  }
+  
+  .export-note {
+    font-size: 0.9rem;
+    color: #555;
+  }
+  

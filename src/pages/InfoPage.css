@@ -1,0 +1,59 @@
+.info-page {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  
+  .info-page h2,
+  .info-page h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+  }
+  
+  .info-page ul {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+  }
+  
+  .info-page code {
+    background-color: #f3f3f3;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: monospace;
+  }
+  
+  .info-code {
+    background: #f9f9f9;
+    padding: 1rem;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-family: monospace;
+    font-size: 0.9rem;
+    margin: 1rem 0;
+  }
+  
+  .media-symbols {
+    list-style: none;
+    padding-left: 0;
+  }
+  
+  .media-symbols li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .symbol.green {
+    color: green;
+  }
+  .symbol.orange {
+    color: orange;
+  }
+  .symbol.red {
+    color: red;
+  }  
