@@ -22,6 +22,23 @@ const ROOT_PATH = process.env.ROOT_PATH || "/Users/zyzz/Desktop/produktionsunder
 
 app.use("/media", express.static(ROOT_PATH));
 
+// Automatically add missing columns (non-destructive)
+function ensureSchemaUpToDate() {
+  const existingColumns = db.prepare(`PRAGMA table_info(article)`).all().map(col => col.name);
+
+  if (!existingColumns.includes("hang_created_by")) {
+    db.prepare(`ALTER TABLE article ADD COLUMN hang_created_by TEXT`).run();
+    console.log("✅ Added column: hang_created_by");
+  }
+
+  if (!existingColumns.includes("pack_created_by")) {
+    db.prepare(`ALTER TABLE article ADD COLUMN pack_created_by TEXT`).run();
+    console.log("✅ Added column: pack_created_by");
+  }
+}
+
+ensureSchemaUpToDate();
+
 // testt
 app.get("/", (req, res) => {
   res.send("Server is running");
@@ -96,7 +113,9 @@ app.get("/api/instructions/:articleNumber", (req, res) => {
         a.article_number,
         c.name AS customer,
         a.hang_comment,
-        a.pack_comment
+        a.pack_comment,
+        a.hang_created_by,
+        a.pack_created_by
       FROM article a
       JOIN customer c ON a.customer_id = c.customer_id
       WHERE a.article_number = ? COLLATE NOCASE
@@ -106,7 +125,13 @@ app.get("/api/instructions/:articleNumber", (req, res) => {
       return res.status(404).json({ error: "Article not found in the system" });
     }
 
-    const { customer, hang_comment, pack_comment } = result;
+    const {
+      customer,
+      hang_comment,
+      pack_comment,
+      hang_created_by,
+      pack_created_by
+    } = result;
 
     // Build file path to image/video folders
     const basePath = path.join(ROOT_PATH, customer, "bilder");
@@ -129,7 +154,9 @@ app.get("/api/instructions/:articleNumber", (req, res) => {
       hangning: loadFiles("hängning"),
       packning: loadFiles("packning"),
       hang_comment,
-      pack_comment
+      pack_comment,
+      hang_created_by,
+      pack_created_by
     });
   } catch (err) {
     console.error("Database error:", err.message);
@@ -143,16 +170,30 @@ app.put("/api/instructions/:articleNumber", (req, res) => {
   const { articleNumber } = req.params;
   const hangComment = req.body.hang_comment ?? null;
   const packComment = req.body.pack_comment ?? null;
+  const hangCreatedBy = req.body.hang_created_by ?? null;
+  const packCreatedBy = req.body.pack_created_by ?? null;
   const updatedAt = new Date().toISOString();
 
   try {
     const stmt = db.prepare(`
       UPDATE article
-      SET hang_comment = ?, pack_comment = ?, updated_at = ?
+      SET 
+        hang_comment = ?, 
+        pack_comment = ?, 
+        hang_created_by = ?, 
+        pack_created_by = ?, 
+        updated_at = ?
       WHERE article_number = ? COLLATE NOCASE
     `);
 
-    const result = stmt.run(hangComment, packComment, updatedAt, articleNumber);
+    const result = stmt.run(
+      hangComment,
+      packComment,
+      hangCreatedBy,
+      packCreatedBy,
+      updatedAt,
+      articleNumber
+    );
 
     if (result.changes === 0) {
       return res.status(404).json({ error: "No article found with that number" });

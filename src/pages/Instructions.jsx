@@ -13,11 +13,15 @@ function Instructions() {
   const [packning, setPackning] = useState([]);
   const [hangComment, setHangComment] = useState("");
   const [packComment, setPackComment] = useState("");
+  const [hangCreatedBy, setHangCreatedBy] = useState("");
+  const [packCreatedBy, setPackCreatedBy] = useState("");
 
   const [isEditingHang, setIsEditingHang] = useState(false);
   const [isEditingPack, setIsEditingPack] = useState(false);
   const [newHangComment, setNewHangComment] = useState("");
   const [newPackComment, setNewPackComment] = useState("");
+  const [newHangAuthor, setNewHangAuthor] = useState("");
+  const [newPackAuthor, setNewPackAuthor] = useState("");
 
   useEffect(() => {
     axios
@@ -27,8 +31,12 @@ function Instructions() {
         setPackning(res.data.packning);
         setHangComment(res.data.hang_comment);
         setPackComment(res.data.pack_comment);
+        setHangCreatedBy(res.data.hang_created_by || "");
+        setPackCreatedBy(res.data.pack_created_by || "");
         setNewHangComment(res.data.hang_comment || "");
         setNewPackComment(res.data.pack_comment || "");
+        setNewHangAuthor(res.data.hang_created_by || "");
+        setNewPackAuthor(res.data.pack_created_by || "");
       })
       .catch((err) => {
         console.error("Failed to fetch instructions", err);
@@ -85,9 +93,12 @@ function Instructions() {
       .put(`${API_BASE}/api/instructions/${articleNumber}`, {
         hang_comment: newHangComment,
         pack_comment: packComment ?? null,
+        hang_created_by: newHangAuthor,
+        pack_created_by: packCreatedBy ?? null
       })
       .then(() => {
         setHangComment(newHangComment);
+        setHangCreatedBy(newHangAuthor);
         setIsEditingHang(false);
       })
       .catch((err) => console.error("Failed to save hang comment", err));
@@ -98,9 +109,12 @@ function Instructions() {
       .put(`${API_BASE}/api/instructions/${articleNumber}`, {
         hang_comment: hangComment ?? null,
         pack_comment: newPackComment,
+        hang_created_by: hangCreatedBy ?? null,
+        pack_created_by: newPackAuthor
       })
       .then(() => {
         setPackComment(newPackComment);
+        setPackCreatedBy(newPackAuthor);
         setIsEditingPack(false);
       })
       .catch((err) => console.error("Failed to save pack comment", err));
@@ -130,13 +144,23 @@ function Instructions() {
                 value={newHangComment}
                 onChange={(e) => setNewHangComment(e.target.value)}
               />
+              <input
+                type="text"
+                value={newHangAuthor}
+                onChange={(e) => setNewHangAuthor(e.target.value)}
+                placeholder="Namn (skapad av)"
+                className="author-input"
+              />
               <div className="instructions-buttons">
                 <button onClick={saveHangComment}>Spara</button>
                 <button onClick={() => setIsEditingHang(false)}>Avbryt</button>
               </div>
             </>
           ) : (
-            hangComment || "Ingen kommentar tillgänglig ännu."
+            <>
+              {hangComment || "Ingen kommentar tillgänglig ännu."}
+              <p><strong>Instruktion av:</strong> {hangCreatedBy || "Okänt"}</p>
+            </>
           )}
         </div>
         {useMemo(() => hangning.map((m) => renderMedia(m, "hängning")), [hangning])}
@@ -161,13 +185,23 @@ function Instructions() {
                 value={newPackComment}
                 onChange={(e) => setNewPackComment(e.target.value)}
               />
+              <input
+                type="text"
+                value={newPackAuthor}
+                onChange={(e) => setNewPackAuthor(e.target.value)}
+                placeholder="Namn (skapad av)"
+                className="author-input"
+              />
               <div className="instructions-buttons">
                 <button onClick={savePackComment}>Spara</button>
                 <button onClick={() => setIsEditingPack(false)}>Avbryt</button>
               </div>
             </>
           ) : (
-            packComment || "Ingen kommentar tillgänglig ännu."
+            <>
+              {packComment || "Ingen kommentar tillgänglig ännu."}
+              <p><strong>Instruktion av:</strong> {packCreatedBy || "Okänt"}</p>
+            </>
           )}
         </div>
         {useMemo(() => packning.map((m) => renderMedia(m, "packning")), [packning])}
