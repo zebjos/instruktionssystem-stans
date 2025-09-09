@@ -35,6 +35,16 @@ function ensureSchemaUpToDate() {
     db.prepare(`ALTER TABLE article ADD COLUMN pack_created_by TEXT`).run();
     console.log("✅ Added column: pack_created_by");
   }
+
+  if (!existingColumns.includes("hang_updated_at")) {
+    db.prepare(`ALTER TABLE article ADD COLUMN hang_updated_at TEXT`).run();
+    console.log("✅ Added column: hang_updated_at");
+  }
+
+  if (!existingColumns.includes("pack_updated_at")) {
+    db.prepare(`ALTER TABLE article ADD COLUMN pack_updated_at TEXT`).run();
+    console.log("✅ Added column: pack_updated_at");
+  }
 }
 
 ensureSchemaUpToDate();
@@ -115,7 +125,9 @@ app.get("/api/instructions/:articleNumber", (req, res) => {
         a.hang_comment,
         a.pack_comment,
         a.hang_created_by,
-        a.pack_created_by
+        a.pack_created_by,
+        a.hang_updated_at,
+        a.pack_updated_at
       FROM article a
       JOIN customer c ON a.customer_id = c.customer_id
       WHERE a.article_number = ? COLLATE NOCASE
@@ -125,18 +137,11 @@ app.get("/api/instructions/:articleNumber", (req, res) => {
       return res.status(404).json({ error: "Article not found in the system" });
     }
 
-    const {
-      customer,
-      hang_comment,
-      pack_comment,
-      hang_created_by,
-      pack_created_by
-    } = result;
+    const { customer, hang_comment, pack_comment, hang_created_by, pack_created_by, hang_updated_at, pack_updated_at } = result;
 
     // Build file path to image/video folders
     const basePath = path.join(ROOT_PATH, customer, "bilder");
 
-    // Read and return all matching media files from subfolder
     const loadFiles = (subfolder) => {
       const dir = path.join(basePath, subfolder);
       console.log("Looking in:", JSON.stringify(dir));
@@ -146,7 +151,6 @@ app.get("/api/instructions/:articleNumber", (req, res) => {
       }
       const files = fs.readdirSync(dir)
         .filter(f => f.startsWith(articleNumber));
-      console.log("Found files:", files);
       return files.map(f => `/media/${customer}/bilder/${subfolder}/${f}`);
     };
 
@@ -156,7 +160,9 @@ app.get("/api/instructions/:articleNumber", (req, res) => {
       hang_comment,
       pack_comment,
       hang_created_by,
-      pack_created_by
+      pack_created_by,
+      hang_updated_at,
+      pack_updated_at
     });
   } catch (err) {
     console.error("Database error:", err.message);
@@ -165,14 +171,14 @@ app.get("/api/instructions/:articleNumber", (req, res) => {
 });
 
 
-// Update comments for a specific article
+// Update comments and names for a specific article
 app.put("/api/instructions/:articleNumber", (req, res) => {
   const { articleNumber } = req.params;
   const hangComment = req.body.hang_comment ?? null;
   const packComment = req.body.pack_comment ?? null;
   const hangCreatedBy = req.body.hang_created_by ?? null;
   const packCreatedBy = req.body.pack_created_by ?? null;
-  const updatedAt = new Date().toISOString();
+  const now = new Date().toISOString();
 
   try {
     const stmt = db.prepare(`
@@ -182,7 +188,8 @@ app.put("/api/instructions/:articleNumber", (req, res) => {
         pack_comment = ?, 
         hang_created_by = ?, 
         pack_created_by = ?, 
-        updated_at = ?
+        hang_updated_at = CASE WHEN ? IS NOT NULL THEN ? ELSE hang_updated_at END,
+        pack_updated_at = CASE WHEN ? IS NOT NULL THEN ? ELSE pack_updated_at END
       WHERE article_number = ? COLLATE NOCASE
     `);
 
@@ -191,7 +198,8 @@ app.put("/api/instructions/:articleNumber", (req, res) => {
       packComment,
       hangCreatedBy,
       packCreatedBy,
-      updatedAt,
+      hangComment, now,
+      packComment, now,
       articleNumber
     );
 
@@ -199,7 +207,7 @@ app.put("/api/instructions/:articleNumber", (req, res) => {
       return res.status(404).json({ error: "No article found with that number" });
     }
 
-    res.status(200).json({ message: "Comments updated successfully" });
+    res.status(200).json({ message: "Instructions updated successfully" });
   } catch (err) {
     console.error("DB error:", err.message);
     res.status(500).json({ error: err.message });

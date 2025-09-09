@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import "./ArticlesTab.css";
 import API_BASE from "../../../utils/api";
@@ -40,10 +39,10 @@ function ArticlesTab() {
 
   const customers = [...new Set(articles.map(a => a.customer))];
 
-  const renderStatus = (value) => {
+  const renderStatusIcon = (value) => {
     return value
-      ? <span className="status exists">✓ Finns</span>
-      : <span className="status missing">✗ Saknas</span>;
+      ? <span className="status exists">✓</span>
+      : <span className="status missing">✗</span>;
   };
 
   const renderMediaStatus = (mc) => {
@@ -88,8 +87,7 @@ function ArticlesTab() {
           <tr>
             <th>Artikelnummer</th>
             <th>Kund</th>
-            <th>Hängkommentar</th>
-            <th>Packkommentar</th>
+            <th>Kommentar</th>
             <th className="media-count">Media</th>
             <th>Senast ändrad</th>
             <th className="actions">Åtgärder</th>
@@ -109,8 +107,11 @@ function ArticlesTab() {
                 </a>
               </td>
               <td>{article.customer}</td>
-              <td>{renderStatus(article.hang_comment)}</td>
-              <td>{renderStatus(article.pack_comment)}</td>
+              <td>
+                <span className="comment-status">
+                  {renderStatusIcon(article.hang_comment)} / {renderStatusIcon(article.pack_comment)}
+                </span>
+              </td>
               <td className="media-count">
                 {article.media_count
                   ? renderMediaStatus(article.media_count)
@@ -138,7 +139,7 @@ function ArticlesTab() {
             </tr>
           ))}
           {filtered.length === 0 && (
-            <tr><td colSpan="7">Inga artiklar matchar.</td></tr>
+            <tr><td colSpan="6">Inga artiklar matchar.</td></tr>
           )}
         </tbody>
       </table>

@@ -15,6 +15,8 @@ function Instructions() {
   const [packComment, setPackComment] = useState("");
   const [hangCreatedBy, setHangCreatedBy] = useState("");
   const [packCreatedBy, setPackCreatedBy] = useState("");
+  const [hangUpdatedAt, setHangUpdatedAt] = useState("");
+  const [packUpdatedAt, setPackUpdatedAt] = useState("");
 
   const [isEditingHang, setIsEditingHang] = useState(false);
   const [isEditingPack, setIsEditingPack] = useState(false);
@@ -33,6 +35,8 @@ function Instructions() {
         setPackComment(res.data.pack_comment);
         setHangCreatedBy(res.data.hang_created_by || "");
         setPackCreatedBy(res.data.pack_created_by || "");
+        setHangUpdatedAt(res.data.hang_updated_at || "");
+        setPackUpdatedAt(res.data.pack_updated_at || "");
         setNewHangComment(res.data.hang_comment || "");
         setNewPackComment(res.data.pack_comment || "");
         setNewHangAuthor(res.data.hang_created_by || "");
@@ -94,11 +98,12 @@ function Instructions() {
         hang_comment: newHangComment,
         pack_comment: packComment ?? null,
         hang_created_by: newHangAuthor,
-        pack_created_by: packCreatedBy ?? null
+        pack_created_by: packCreatedBy ?? null,
       })
       .then(() => {
         setHangComment(newHangComment);
         setHangCreatedBy(newHangAuthor);
+        setHangUpdatedAt(new Date().toISOString());
         setIsEditingHang(false);
       })
       .catch((err) => console.error("Failed to save hang comment", err));
@@ -110,14 +115,20 @@ function Instructions() {
         hang_comment: hangComment ?? null,
         pack_comment: newPackComment,
         hang_created_by: hangCreatedBy ?? null,
-        pack_created_by: newPackAuthor
+        pack_created_by: newPackAuthor,
       })
       .then(() => {
         setPackComment(newPackComment);
         setPackCreatedBy(newPackAuthor);
+        setPackUpdatedAt(new Date().toISOString());
         setIsEditingPack(false);
       })
       .catch((err) => console.error("Failed to save pack comment", err));
+  };
+
+  const formatDate = (isoString) => {
+    if (!isoString) return "Okänt";
+    return new Date(isoString).toLocaleString();
   };
 
   return (
@@ -128,7 +139,7 @@ function Instructions() {
       </h2>
 
       <section className="instructions-section">
-        <h3 className="instructions-subtitle">Hängning</h3>
+        <h3 className="instructions-subtitle">Montering</h3>
         <div className="instructions-comment">
           {!isEditingHang && (
             <button
@@ -160,6 +171,7 @@ function Instructions() {
             <>
               {hangComment || "Ingen kommentar tillgänglig ännu."}
               <p><strong>Instruktion av:</strong> {hangCreatedBy || "Okänt"}</p>
+              <p><em>Senast uppdaterad: {formatDate(hangUpdatedAt)}</em></p>
             </>
           )}
         </div>
@@ -201,6 +213,7 @@ function Instructions() {
             <>
               {packComment || "Ingen kommentar tillgänglig ännu."}
               <p><strong>Instruktion av:</strong> {packCreatedBy || "Okänt"}</p>
+              <p><em>Senast uppdaterad: {formatDate(packUpdatedAt)}</em></p>
             </>
           )}
         </div>
