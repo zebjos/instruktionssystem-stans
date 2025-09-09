@@ -266,6 +266,7 @@ app.post("/api/customers", (req, res) => {
   }
 });
 
+
 // Get list of all articles with associated customer names
 app.get("/api/articles", (req, res) => {
   try {
@@ -276,7 +277,10 @@ app.get("/api/articles", (req, res) => {
         c.name AS customer,
         a.hang_comment,
         a.pack_comment,
-        a.updated_at
+        a.hang_created_by,
+        a.pack_created_by,
+        a.hang_updated_at,
+        a.pack_updated_at
       FROM article a
       JOIN customer c ON a.customer_id = c.customer_id
       ORDER BY customer ASC

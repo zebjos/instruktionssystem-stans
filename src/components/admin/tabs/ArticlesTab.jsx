@@ -39,14 +39,21 @@ function ArticlesTab() {
 
   const customers = [...new Set(articles.map(a => a.customer))];
 
-  const renderStatusIcon = (value) => {
-    return value
-      ? <span className="status exists">✓</span>
-      : <span className="status missing">✗</span>;
+  const renderStatus = (hang, pack) => {
+    return (
+      <span className="status-pair">
+        <span className={hang ? "status exists" : "status missing"}>
+          {hang ? "✓" : "✗"}
+        </span>
+        {" / "}
+        <span className={pack ? "status exists" : "status missing"}>
+          {pack ? "✓" : "✗"}
+        </span>
+      </span>
+    );
   };
 
   const renderMediaStatus = (mc) => {
-    const total = mc.hangning + mc.packning;
     let emoji = "🔴";
     if (mc.hangning > 0 && mc.packning > 0) {
       emoji = "🟢";
@@ -58,6 +65,22 @@ function ArticlesTab() {
       <span className="media-status">
         <span className="media-numbers">{mc.hangning} / {mc.packning}</span>
         <span className="media-emoji">{emoji}</span>
+      </span>
+    );
+  };
+
+  const renderUpdatedAt = (hangDate, packDate) => {
+    const formatDate = (date) => {
+      if (!date) return "-";
+      return new Date(date).toLocaleString("sv-SE", {
+        year: "numeric",
+        month: "short",
+      });
+    };
+
+    return (
+      <span className="updated-pair">
+        {formatDate(hangDate)} / {formatDate(packDate)}
       </span>
     );
   };
@@ -87,9 +110,9 @@ function ArticlesTab() {
           <tr>
             <th>Artikelnummer</th>
             <th>Kund</th>
-            <th>Kommentar</th>
-            <th className="media-count">Media</th>
-            <th>Senast ändrad</th>
+            <th>Kommentar (H/P)</th>
+            <th className="media-count">Media (H/P)</th>
+            <th>Senast ändrad (H/P)</th>
             <th className="actions">Åtgärder</th>
           </tr>
         </thead>
@@ -107,26 +130,14 @@ function ArticlesTab() {
                 </a>
               </td>
               <td>{article.customer}</td>
-              <td>
-                <span className="comment-status">
-                  {renderStatusIcon(article.hang_comment)} / {renderStatusIcon(article.pack_comment)}
-                </span>
-              </td>
+              <td>{renderStatus(article.hang_comment, article.pack_comment)}</td>
               <td className="media-count">
                 {article.media_count
                   ? renderMediaStatus(article.media_count)
                   : "-"}
               </td>
               <td>
-                {article.updated_at
-                  ? new Date(article.updated_at).toLocaleString("sv-SE", {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })
-                  : "-"}
+                {renderUpdatedAt(article.hang_updated_at, article.pack_updated_at)}
               </td>
               <td className="actions">
                 <button
