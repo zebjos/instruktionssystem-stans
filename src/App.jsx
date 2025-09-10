@@ -1,11 +1,12 @@
 import { BrowserRouter, Routes, Route, NavLink, useLocation } from "react-router-dom";
-import { Camera, Home as HomeIcon, InfoIcon, Plus, ShieldUser } from "lucide-react";
+import { Camera, Home as HomeIcon, InfoIcon, ListIcon, Plus, ShieldUser } from "lucide-react";
 import Home from "./pages/Home";
 import AddArticle from "./pages/AddArticle";
 import Instructions from "./pages/Instructions";
 import Admin from "./pages/Admin";
 import InfoPage from "./pages/InfoPage"
 import UploadPage from "./pages/UploadPage";
+import ArticlesList from "./pages/ArticlesList";
 
 function AppRoutes() {
   const location = useLocation();
@@ -39,6 +40,14 @@ function AppRoutes() {
             <span>Ladda upp</span>
           </NavLink>
 
+          <NavLink // FIX THIS TMRWE
+            to="/articles" 
+            className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+          >
+            <ListIcon size={20} />
+            <span>Lista</span>
+          </NavLink>
+
           <NavLink 
             to="/info" 
             className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
@@ -61,6 +70,7 @@ function AppRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="/add" element={<AddArticle />} />
         <Route path="/instructions/:articleNumber" element={<Instructions />} />
+        <Route path="/articles" element={<ArticlesList />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/info" element={<InfoPage />} />
         <Route path="/upload" element={<UploadPage />} />
