@@ -139,7 +139,7 @@ function Instructions() {
       </h2>
 
       <section className="instructions-section">
-        <h3 className="instructions-subtitle">Montering</h3>
+        <h3 className="instructions-subtitle">Hängning</h3>
         <div className="instructions-comment">
           {!isEditingHang && (
             <button
