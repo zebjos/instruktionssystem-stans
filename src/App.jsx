@@ -8,15 +8,17 @@ import InfoPage from "./pages/InfoPage"
 import UploadPage from "./pages/UploadPage";
 import ArticlesList from "./pages/ArticlesList";
 import MasterPage from "./pages/MasterPage";
+import GeneralPage from "./pages/GeneralPage";
 
 function AppRoutes() {
   const location = useLocation();
   const isAdmin = location.pathname.startsWith("/admin");
   const isMaster = location.pathname.startsWith("/master");
+  const isGeneral = location.pathname.startsWith("/general");
 
   return (
     <>
-      {!isMaster && (   // 👈 only render navbar if NOT on /master
+      {!isMaster && !isGeneral && (   // 👈 only render navbar if NOT on /master
         <nav className={`navbar ${isAdmin ? "admin-navbar" : ""}`}>
           <div className="nav-container">
             <NavLink 
@@ -79,6 +81,7 @@ function AppRoutes() {
         <Route path="/info" element={<InfoPage />} />
         <Route path="/upload" element={<UploadPage />} />
         <Route path="/master" element={<MasterPage />} />
+        <Route path="/general" element={<GeneralPage />} />
       </Routes>
     </>
   );

@@ -30,7 +30,7 @@ function MasterPage() {
             <a href={dept.host} target="_blank" className="master-btn">
               {dept.name}
             </a>
-            <a href={`${dept.host}/info`} target="_blank" className="master-btn info-btn">
+            <a href={`${dept.host}/general`} target="_blank" className="master-btn info-btn">
               Info ({dept.name})
             </a>
           </div>
