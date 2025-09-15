@@ -38,7 +38,7 @@ function MasterPage() {
                 rel="noopener noreferrer"
                 className="info-icon-btn"
               >
-                <BookAlert size={25} />
+                <ScanSearch size={25} />
               </a>
             </div>
           </div>
