@@ -1,3 +1,4 @@
+import { HelpCircle } from "lucide-react";
 import "./MasterPage.css";
 
 function MasterPage() {
@@ -27,12 +28,19 @@ function MasterPage() {
       <div className="master-grid">
         {departments.map((dept) => (
           <div key={dept.name} className="master-column">
-            <a href={dept.host} target="_blank" className="master-btn">
-              {dept.name}
-            </a>
-            <a href={`${dept.host}/general`} target="_blank" className="master-btn info-btn">
-              Info ({dept.name})
-            </a>
+            <div className="button-wrapper">
+              <a href={dept.host} target="_blank" rel="noopener noreferrer" className="master-btn">
+                {dept.name}
+              </a>
+              <a
+                href={`${dept.host}/general`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="info-icon-btn"
+              >
+                <HelpCircle size={18} />
+              </a>
+            </div>
           </div>
         ))}
       </div>
