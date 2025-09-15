@@ -1,4 +1,4 @@
-import { HelpCircle } from "lucide-react";
+import { BookAlert, BookOpen, BookOpenText, FileQuestionMark, HelpCircle, NotebookText, ScanSearch, ShieldQuestionMark } from "lucide-react";
 import "./MasterPage.css";
 
 function MasterPage() {
@@ -38,7 +38,7 @@ function MasterPage() {
                 rel="noopener noreferrer"
                 className="info-icon-btn"
               >
-                <HelpCircle size={18} />
+                <BookAlert size={25} />
               </a>
             </div>
           </div>

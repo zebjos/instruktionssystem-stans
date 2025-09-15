@@ -69,12 +69,12 @@
 /* ✅ Small question mark button that "peeks out" */
 .info-icon-btn {
     position: absolute;
-    top: -8px;
-    right: -8px;
+    top: -15px;
+    right: -15px;
     background-color: #fff;
     border: 2px solid #faaf40;
     border-radius: 50%;
-    padding: 0.3rem;
+    padding: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -84,6 +84,7 @@
 
 .info-icon-btn:hover {
     background-color: #faaf40;
+    border: 2px solid #fff;
     color: #fff;
     transform: scale(1.1);
 }  
