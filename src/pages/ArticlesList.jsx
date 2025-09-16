@@ -98,7 +98,7 @@ function ArticlesList() {
             <th>Artikelnummer</th>
             <th>Kund</th>
             <th>Kommentar (H/P)</th>
-            <th className="media-count">Media</th>
+            <th className="media-count">Media (H/P)</th>
             <th>Senast ändrad (H/P)</th>
           </tr>
         </thead>
