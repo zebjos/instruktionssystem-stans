@@ -1,4 +1,4 @@
-import { ScanSearch } from "lucide-react";
+import { BookOpenCheck, ScanSearch, BookOpenText } from "lucide-react";
 import "./MasterPage.css";
 
 function MasterPage() {
@@ -44,7 +44,7 @@ function MasterPage() {
                 className="info-icon-btn"
                 title="Generell Information"
               >
-                <ScanSearch size={25} />
+                <BookOpenText size={25} />
               </a>
             </div>
           </div>
