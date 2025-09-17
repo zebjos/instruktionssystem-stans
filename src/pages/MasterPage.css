@@ -14,11 +14,11 @@
 
 .master-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 2rem;
     justify-items: center;
     width: 100%;
-    max-width: 1000px;
+    max-width: 1200px;
 }
 
 /* ✅ Responsive */
@@ -87,4 +87,13 @@
     border: 2px solid #fff;
     color: #fff;
     transform: scale(1.1);
-}  
+}
+
+/* ✅ Planner stands out */
+.planner-btn {
+    background-color: #6a5acd; /* slate blue / purple */
+}
+
+.planner-btn:hover {
+    background-color: #483d8b; /* darker purple */
+}

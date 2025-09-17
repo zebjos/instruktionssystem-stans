@@ -1,4 +1,4 @@
-import { BookAlert, BookOpen, BookOpenText, FileQuestionMark, HelpCircle, NotebookText, ScanSearch, ShieldQuestionMark } from "lucide-react";
+import { ScanSearch } from "lucide-react";
 import "./MasterPage.css";
 
 function MasterPage() {
@@ -29,7 +29,12 @@ function MasterPage() {
         {departments.map((dept) => (
           <div key={dept.name} className="master-column">
             <div className="button-wrapper">
-              <a href={dept.host} target="_blank" rel="noopener noreferrer" className="master-btn">
+              <a
+                href={dept.host}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="master-btn"
+              >
                 {dept.name}
               </a>
               <a
@@ -37,12 +42,27 @@ function MasterPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="info-icon-btn"
+                title="Generell Information"
               >
                 <ScanSearch size={25} />
               </a>
             </div>
           </div>
         ))}
+
+        {/* ✅ Planner in same row, no info icon */}
+        <div className="master-column">
+          <div className="button-wrapper">
+            <a
+              href="https://ljungsarpsplanner.se"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="master-btn planner-btn"
+            >
+              Planner
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );
