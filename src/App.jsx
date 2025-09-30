@@ -7,8 +7,6 @@ import Admin from "./pages/Admin";
 import InfoPage from "./pages/InfoPage"
 import UploadPage from "./pages/UploadPage";
 import ArticlesList from "./pages/ArticlesList";
-import MasterPage from "./pages/MasterPage";
-import GeneralPage from "./pages/GeneralPage";
 
 function AppRoutes() {
   const location = useLocation();
@@ -80,8 +78,6 @@ function AppRoutes() {
         <Route path="/admin" element={<Admin />} />
         <Route path="/info" element={<InfoPage />} />
         <Route path="/upload" element={<UploadPage />} />
-        <Route path="/master" element={<MasterPage />} />
-        <Route path="/general" element={<GeneralPage />} />
       </Routes>
     </>
   );

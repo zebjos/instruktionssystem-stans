@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import "./ArticlesTab.css";
 import API_BASE from "../../../utils/api";
+import StatusDot from "../../../utils/StatusDot";
 
 function ArticlesTab() {
   const [articles, setArticles] = useState([]);
@@ -54,17 +55,19 @@ function ArticlesTab() {
   };
 
   const renderMediaStatus = (mc) => {
-    let emoji = "🔴";
+    let color = "red";   // default = no media
+    let filled = true;   // solid circle
+  
     if (mc.hangning > 0 && mc.packning > 0) {
-      emoji = "🟢";
+      color = "green";   // both have media
     } else if (mc.hangning > 0 || mc.packning > 0) {
-      emoji = "🟠";
+      color = "orange";  // only one has media
     }
-
+  
     return (
       <span className="media-status">
         <span className="media-numbers">{mc.hangning} / {mc.packning}</span>
-        <span className="media-emoji">{emoji}</span>
+        <StatusDot color={color} filled={filled} size={16} />
       </span>
     );
   };
@@ -110,9 +113,9 @@ function ArticlesTab() {
           <tr>
             <th>Artikelnummer</th>
             <th>Kund</th>
-            <th>Kommentar (H/P)</th>
-            <th className="media-count">Media (H/P)</th>
-            <th>Senast ändrad (H/P)</th>
+            <th>Kommentar (M/P)</th>
+            <th className="media-count">Media (M/P)</th>
+            <th>Senast ändrad (M/P)</th>
             <th className="actions">Åtgärder</th>
           </tr>
         </thead>

@@ -81,7 +81,7 @@ function UploadPage() {
         <label>
           Typ:
           <select value={type} onChange={(e) => setType(e.target.value)}>
-            <option value="hängning">Hängning</option>
+            <option value="hängning">Montering</option>
             <option value="packning">Packning</option>
           </select>
         </label>
