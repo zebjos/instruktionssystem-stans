@@ -20,7 +20,7 @@ function InfoPage() {
       <h2><Info size={20} /> Instruktionssystem – Information</h2>
 
       <p>
-        Det här systemet används för att visa instruktioner för hur detaljer ska monteras och packas.
+        Det här systemet används för att visa instruktioner för hur detaljer ska kantpressas och packas.
         Sök på ett artikelnummer för att få upp instruktioner i form av kommentarer och bilder.
       </p>
 
@@ -40,7 +40,7 @@ function InfoPage() {
 
       <h3><Smartphone size={18} /> Ladda upp media från mobil eller dator</h3>
       <p>
-        Du kan enkelt ladda upp bilder och videor direkt från mobilen via fliken <strong>Ladda upp</strong> i menyn. Där väljer du kund, artikelnummer, typ (montering/packning), samt fil att ladda upp.
+        Du kan enkelt ladda upp bilder och videor direkt från mobilen via fliken <strong>Ladda upp</strong> i menyn. Där väljer du kund, artikelnummer, typ (kantpress/packning), samt fil att ladda upp.
       </p>
       <ul>
         <li>Filer i HEIC eller MOV/HEVC konverteras automatiskt till .jpg eller .mp4.</li>
@@ -54,11 +54,11 @@ function InfoPage() {
       </p>
 
       <pre className="info-code">
-        /Gemensam/&#123;kund&#125;/bilder/montering/&#123;artikelnummer&#125;_&#123;ordnings siffra&#125;.jpg<br />
+        /Gemensam/&#123;kund&#125;/bilder/kantpress/&#123;artikelnummer&#125;_&#123;ordnings siffra&#125;.jpg<br />
         /Gemensam/&#123;kund&#125;/bilder/packning/&#123;artikelnummer&#125;_&#123;ordnings siffra&#125;.png<br />
         <br />
         Exempel:<br />
-        /Gemensam/Instant Systems/bilder/montering/1026-0612_1.mp4
+        /Gemensam/Instant Systems/bilder/kantpress/1026-0612_1.mp4
       </pre>
 
       <ul>
@@ -70,7 +70,7 @@ function InfoPage() {
 
       <h3><Image size={18} /> Symboler för media</h3>
       <ul className="media-symbols">
-        <li><StatusDot color="green" filled={true} /> = Både montering och packning har mediafiler</li>
+        <li><StatusDot color="green" filled={true} /> = Både kantpress och packning har mediafiler</li>
         <li><StatusDot color="orange" filled={true} /> = Endast en av dem har media</li>
         <li><StatusDot color="red" filled={true} /> = Ingen media hittades för artikeln</li>
       </ul>

@@ -34,7 +34,7 @@ function Home() {
   return (
     <main className="home">
       <img src="/Ljung_logo1-1.png" alt="Ljung logo" className="logo" />
-      <p>Sök efter ett artikelnummer för att visa instruktioner för montering och packning.</p>
+      <p>Sök efter ett artikelnummer för att visa instruktioner för kantpress och packning.</p>
       <form className="search-form" onSubmit={handleSubmit} autoComplete="off">
       <div className="search-controls">
         <input
