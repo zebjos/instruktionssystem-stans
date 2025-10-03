@@ -38,9 +38,14 @@ function InfoPage() {
         Kommentarerna kan skrivas och redigeras genom att klicka på <EditIcon size={16} style={{ display: "inline", verticalAlign: "middle" }} /> uppe i högra hörnet på kommentarsfältet efter att du har sökt efter ett artikelnummer som finns i databasen.
       </p>
 
+      <h3><NotepadTextDashed size={18} /> Standard</h3>
+      <p>
+        Du kan hitta en mall på standard som bör följas vid skapning av instruktioner, sök efter MALL för att se vad som bör skrivas vart och MALL_IFYLLD för att se hur en färdig instruktion bör se ut. Det finns även med bilder som visar vad som är vad på mallen.
+      </p>
+
       <h3><Smartphone size={18} /> Ladda upp media från mobil eller dator</h3>
       <p>
-        Du kan enkelt ladda upp bilder och videor direkt från mobilen via fliken <strong>Ladda upp</strong> i menyn. Där väljer du kund, artikelnummer, typ (kantpress/packning), samt fil att ladda upp.
+        Du kan enkelt ladda upp bilder och videor direkt från mobil/iPad via fliken <strong>Ladda upp</strong> i menyn. Där väljer du kund, artikelnummer, typ (kantpress/packning), samt fil att ladda upp.
       </p>
       <ul>
         <li>Filer i HEIC eller MOV/HEVC konverteras automatiskt till .jpg eller .mp4.</li>
@@ -48,27 +53,7 @@ function InfoPage() {
         <li>Visningsordning hanteras automatiskt baseras på ordningen som uppladdningen har skett.</li>
       </ul>
 
-      <h3><Upload size={18} /> Manuellt – Spara filer på nätverksenhet</h3>
-      <p>
-        Bilder och videor kan även sparas direkt på företagets server enligt följande struktur:
-      </p>
-
-      <pre className="info-code">
-        /Gemensam/&#123;kund&#125;/bilder/kantpress/&#123;artikelnummer&#125;_&#123;ordnings siffra&#125;.jpg<br />
-        /Gemensam/&#123;kund&#125;/bilder/packning/&#123;artikelnummer&#125;_&#123;ordnings siffra&#125;.png<br />
-        <br />
-        Exempel:<br />
-        /Gemensam/Instant Systems/bilder/kantpress/1026-0612_1.mp4
-      </pre>
-
-      <ul>
-        <li>Filer måste börja med artikelnumret (exakt match).</li>
-        <li>Använd <strong>_1, _2, _3</strong> i slutet av filnamnet för att ange visningsordning.</li>
-        <li>Format: <code>.jpg</code>, <code>.png</code>, <code>.mp4</code>.</li>
-        <li>Bilder och videor sorteras automatiskt efter suffix.</li>
-      </ul>
-
-      <h3><Image size={18} /> Symboler för media</h3>
+      <h3><Image size={18} /> Symboler för media i lista</h3>
       <ul className="media-symbols">
         <li><StatusDot color="green" filled={true} /> = Både kantpress och packning har mediafiler</li>
         <li><StatusDot color="orange" filled={true} /> = Endast en av dem har media</li>
