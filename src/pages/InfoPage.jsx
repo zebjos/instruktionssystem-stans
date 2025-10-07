@@ -2,65 +2,74 @@ import React from "react";
 import {
   Info,
   Image,
-  Upload,
   FileText,
-  CircleCheck,
-  CircleAlert,
-  CircleX,
   HelpCircleIcon,
   Smartphone,
+  NotepadTextDashed,
+  Upload,
 } from "lucide-react";
 import "./InfoPage.css";
-import StatusDot from "../utils/StatusDot";
 import { EditIcon } from "lucide-react";
+import StatusDot from "../utils/StatusDot";
 
-function InfoPage() {
+function InfoPageStans() {
   return (
     <div className="info-page">
-      <h2><Info size={20} /> Instruktionssystem – Information</h2>
+      <h2><Info size={20} /> Instruktionssystem – Stans</h2>
 
       <p>
-        Det här systemet används för att visa instruktioner för hur detaljer ska stansas och packas.
-        Sök på ett artikelnummer för att få upp instruktioner i form av kommentarer och bilder.
+        Det här systemet används för att visa och hantera instruktioner för hur detaljer ska hanteras vid 
+        <strong> stansning</strong> och <strong>packning</strong>. 
+        Du söker fram en artikel via artikelnummer och kan där se instruktioner i form av kommentarer, bilder och videor.
       </p>
 
       <h3><HelpCircleIcon size={18} /> Saknas artikel i systemet?</h3>
       <p>
-        Om du söker efter ett artikelnummer och inte hittar det i systemet kan du själv lägga till artikeln genom att gå till <strong>Lägg till artikel</strong> i menyn. 
-        Där fyller du i artikelnummer och väljer vilken kund den tillhör.
+        Om du söker efter ett artikelnummer och inte hittar det i systemet kan du själv lägga till artikeln via 
+        <strong> Lägg till artikel</strong> i menyn. Där fyller du i artikelnummer och väljer vilken kund den tillhör.
       </p>
+
       <p>
-        När artikeln är tillagd kan du sedan lägga in instruktioner genom kommentarer eller att spara bilder eller videor i rätt mapp, enligt beskrivningarna nedan.
+        När artikeln är skapad navigeras du automatiskt till den, där kan du lägga till instruktioner, både genom kommentarer 
+        och genom att ladda upp bilder eller videor i sektionerna <strong>Stansning</strong> och <strong>Packning</strong>.
       </p>
 
       <h3><FileText size={18} /> Kommentarer</h3>
       <p>
-        Kommentarerna kan skrivas och redigeras genom att klicka på <EditIcon size={16} style={{ display: "inline", verticalAlign: "middle" }} /> uppe i högra hörnet på kommentarsfältet efter att du har sökt efter ett artikelnummer som finns i databasen.
+        Kommentarerna kan skrivas och redigeras genom att klicka på 
+        {" "}<EditIcon size={16} style={{ display: "inline", verticalAlign: "middle" }} />{" "}
+        i högra hörnet på respektive sektion. Du kan även ange ditt namn för att se vem som skapade 
+        eller ändrade instruktionen.
       </p>
 
-      <h3><NotepadTextDashed size={18} /> Standard</h3>
+      <h3><Upload size={18} /> Ladda upp bilder och videor</h3>
       <p>
-        Du kan hitta en mall på standard som bör följas vid skapning av instruktioner, sök efter MALL för att se vad som bör skrivas vart och MALL_IFYLLD för att se hur en färdig instruktion bör se ut. Det finns även med bilder som visar vad som är vad på mallen.
-      </p>
-
-      <h3><Smartphone size={18} /> Ladda upp media från mobil eller dator</h3>
-      <p>
-        Du kan enkelt ladda upp bilder och videor direkt från mobil/iPad via fliken <strong>Ladda upp</strong> i menyn. Där väljer du kund, artikelnummer, typ (stans/packning), samt fil att ladda upp.
+        Uppladdning sker nu direkt på artikelsidan under respektive sektion (<strong>Stansning</strong> / <strong>Packning</strong>). 
+        Tryck på knappen <em>Ladda upp</em> för att välja bilder eller videor från mobil, iPad eller dator.
       </p>
       <ul>
-        <li>Filer i HEIC eller MOV/HEVC konverteras automatiskt till .jpg eller .mp4.</li>
-        <li>Media hamnar direkt i rätt mapp på företagets nätverksdisk.</li>
-        <li>Visningsordning hanteras automatiskt baseras på ordningen som uppladdningen har skett.</li>
+        <li>Filer i <code>HEIC</code> eller <code>MOV/HEVC</code> konverteras automatiskt till <code>.jpg</code> eller <code>.mp4</code>.</li>
+        <li>Media sparas direkt i rätt kundmapp på nätverksdisken.</li>
+        <li>Du får en bekräftelse när uppladdningen är klar.</li>
       </ul>
+
+      <h3><NotepadTextDashed size={18} /> Standardmall</h3>
+      <p>
+        Du kan söka efter <strong>MALL</strong> för att se hur instruktionerna ska struktureras, 
+        och <strong>MALL_IFYLLD</strong> för ett exempel på en färdig instruktion med bilder.
+      </p>
 
       <h3><Image size={18} /> Symboler för media i lista</h3>
       <ul className="media-symbols">
-        <li><StatusDot color="green" filled={true} /> = Både stans och packning har mediafiler</li>
+        <li><StatusDot color="green" filled={true} /> = Både stansning och packning har mediafiler</li>
         <li><StatusDot color="orange" filled={true} /> = Endast en av dem har media</li>
         <li><StatusDot color="red" filled={true} /> = Ingen media hittades för artikeln</li>
       </ul>
+
+      <h3><Smartphone size={18} /> Tips</h3>
+      <p>Systemet fungerar lika bra på iPad, mobil och dator.</p>
     </div>
   );
 }
 
-export default InfoPage;
+export default InfoPageStans;

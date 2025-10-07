@@ -179,7 +179,7 @@ function Instructions() {
       {/* --- HÄNGNING --- */}
       <section className="instructions-section">
         <div className="section-header">
-          <h3 className="instructions-subtitle">Stans</h3>
+          <h3 className="instructions-subtitle">Stansning</h3>
           <label className="upload-label-inline">
             <Upload size={18} /> Ladda upp
             <input
