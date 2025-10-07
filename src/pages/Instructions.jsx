@@ -5,10 +5,12 @@ import "plyr-react/plyr.css";
 import axios from "axios";
 import "./Instructions.css";
 import API_BASE from "../utils/api";
-import { EditIcon } from "lucide-react";
+import { EditIcon, Upload } from "lucide-react";
 
 function Instructions() {
   const { articleNumber } = useParams();
+
+  const [customer, setCustomer] = useState(""); // ✅ NEW
   const [hangning, setHangning] = useState([]);
   const [packning, setPackning] = useState([]);
   const [hangComment, setHangComment] = useState("");
@@ -26,9 +28,14 @@ function Instructions() {
   const [newPackAuthor, setNewPackAuthor] = useState("");
 
   useEffect(() => {
+    fetchArticleData();
+  }, [articleNumber]);
+
+  const fetchArticleData = () => {
     axios
       .get(`${API_BASE}/api/instructions/${articleNumber}`)
       .then((res) => {
+        setCustomer(res.data.customer || ""); // ✅ Capture actual customer
         setHangning(res.data.hangning);
         setPackning(res.data.packning);
         setHangComment(res.data.hang_comment);
@@ -42,14 +49,40 @@ function Instructions() {
         setNewHangAuthor(res.data.hang_created_by || "");
         setNewPackAuthor(res.data.pack_created_by || "");
       })
-      .catch((err) => {
-        console.error("Failed to fetch instructions", err);
+      .catch((err) => console.error("Failed to fetch instructions", err));
+  };
+
+  const handleUpload = async (e, type) => {
+    const files = Array.from(e.target.files);
+    if (files.length === 0) return;
+
+    if (!customer) {
+      alert("Kund saknas i artikelinformationen.");
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      files.forEach((file) => formData.append("files", file));
+      formData.append("articleNumber", articleNumber);
+      formData.append("type", type);
+      formData.append("customer", customer); // ✅ Use actual customer
+
+      await axios.post(`${API_BASE}/api/upload`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
       });
-  }, [articleNumber]);
+
+      alert(`✅ Uppladdning till ${type} klar!`);
+      fetchArticleData();
+    } catch (err) {
+      console.error("Upload error:", err);
+      alert("❌ Fel vid uppladdning");
+    }
+  };
 
   const renderMedia = (src, type) => {
     const fullSrc = `${API_BASE}${src}`;
-    const parts = src.split("/"); // /media/Customer/bilder/type/filename
+    const parts = src.split("/");
     const customer = parts[2];
     const filename = parts[5];
 
@@ -86,7 +119,7 @@ function Instructions() {
           <img className="instructions-media" src={fullSrc} alt="" />
         )}
         <button className="delete-button" onClick={handleDelete}>
-          X
+          ✕
         </button>
       </div>
     );
@@ -128,7 +161,12 @@ function Instructions() {
 
   const formatDate = (isoString) => {
     if (!isoString) return "Okänt";
-    return new Date(isoString).toLocaleString();
+    const date = new Date(isoString);
+    return date.toLocaleDateString("sv-SE", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
   };
 
   return (
@@ -138,8 +176,22 @@ function Instructions() {
         <span style={{ fontWeight: "normal" }}>{articleNumber}</span>
       </h2>
 
+      {/* --- HÄNGNING --- */}
       <section className="instructions-section">
-        <h3 className="instructions-subtitle">Hängning</h3>
+        <div className="section-header">
+          <h3 className="instructions-subtitle">Stans</h3>
+          <label className="upload-label-inline">
+            <Upload size={18} /> Ladda upp
+            <input
+              type="file"
+              accept="image/*,video/*"
+              multiple
+              onChange={(e) => handleUpload(e, "hängning")}
+              style={{ display: "none" }}
+            />
+          </label>
+        </div>
+
         <div className="instructions-comment">
           {!isEditingHang && (
             <button
@@ -170,18 +222,37 @@ function Instructions() {
           ) : (
             <>
               {hangComment || "Ingen kommentar tillgänglig ännu."}
-              <p><strong>Instruktion av:</strong> {hangCreatedBy || "Okänt"}</p>
-              <p><em>Senast uppdaterad: {formatDate(hangUpdatedAt)}</em></p>
+              <p>
+                <strong>Instruktion av:</strong> {hangCreatedBy || "Okänt"}
+              </p>
+              <p>
+                <em>Senast uppdaterad: {formatDate(hangUpdatedAt)}</em>
+              </p>
             </>
           )}
         </div>
+
         {useMemo(() => hangning.map((m) => renderMedia(m, "hängning")), [hangning])}
       </section>
 
       <hr />
 
+      {/* --- PACKNING --- */}
       <section className="instructions-section">
-        <h3 className="instructions-subtitle">Packning</h3>
+        <div className="section-header">
+          <h3 className="instructions-subtitle">Packning</h3>
+          <label className="upload-label-inline">
+            <Upload size={18} /> Ladda upp
+            <input
+              type="file"
+              accept="image/*,video/*"
+              multiple
+              onChange={(e) => handleUpload(e, "packning")}
+              style={{ display: "none" }}
+            />
+          </label>
+        </div>
+
         <div className="instructions-comment">
           {!isEditingPack && (
             <button
@@ -212,11 +283,16 @@ function Instructions() {
           ) : (
             <>
               {packComment || "Ingen kommentar tillgänglig ännu."}
-              <p><strong>Instruktion av:</strong> {packCreatedBy || "Okänt"}</p>
-              <p><em>Senast uppdaterad: {formatDate(packUpdatedAt)}</em></p>
+              <p>
+                <strong>Instruktion av:</strong> {packCreatedBy || "Okänt"}
+              </p>
+              <p>
+                <em>Senast uppdaterad: {formatDate(packUpdatedAt)}</em>
+              </p>
             </>
           )}
         </div>
+
         {useMemo(() => packning.map((m) => renderMedia(m, "packning")), [packning])}
       </section>
     </div>
