@@ -12,7 +12,7 @@ import "./InfoPage.css";
 import { EditIcon } from "lucide-react";
 import StatusDot from "../utils/StatusDot";
 
-function InfoPageStans() {
+function InfoPage() {
   return (
     <div className="info-page">
       <h2><Info size={20} /> Instruktionssystem – Stans</h2>
@@ -72,4 +72,4 @@ function InfoPageStans() {
   );
 }
 
-export default InfoPageStans;
+export default InfoPage;
