@@ -36,14 +36,6 @@ function AppRoutes() {
             </NavLink>
 
             <NavLink 
-              to="/upload" 
-              className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
-            >
-              <Camera size={20} />
-              <span>Ladda upp</span>
-            </NavLink>
-
-            <NavLink 
               to="/articles" 
               className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
             >
