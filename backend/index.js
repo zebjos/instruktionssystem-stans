@@ -155,6 +155,7 @@ app.get("/api/instructions/:articleNumber", (req, res) => {
     };
 
     res.json({
+      customer,
       hangning: loadFiles("hängning"),
       packning: loadFiles("packning"),
       hang_comment,
@@ -230,7 +231,7 @@ app.post("/api/articles", (req, res) => {
     `);
     stmt.run(articleNumber, customerId, now);
 
-    res.status(201).json({ message: "Article added." });
+    res.status(201).json({ message: "Article added.", articleNumber });
   } catch (err) {
     console.error("Failed to insert customer", err);
     res.status(500).json({ error: "Couldnt save article" });

@@ -113,9 +113,9 @@ function ArticlesTab() {
           <tr>
             <th>Artikelnummer</th>
             <th>Kund</th>
-            <th>Kommentar (M/P)</th>
-            <th className="media-count">Media (M/P)</th>
-            <th>Senast ändrad (M/P)</th>
+            <th>Kommentar (S/P)</th>
+            <th className="media-count">Media (S/P)</th>
+            <th>Senast ändrad (S/P)</th>
             <th className="actions">Åtgärder</th>
           </tr>
         </thead>
