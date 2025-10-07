@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./AddArticle.css";
 import API_BASE from "../utils/api";
@@ -7,8 +8,8 @@ function AddArticle() {
   const [articleNumber, setArticleNumber] = useState("");
   const [customers, setCustomers] = useState([]);
   const [selectedCustomerId, setSelectedCustomerId] = useState("");
-
   const [status, setStatus] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -17,7 +18,7 @@ function AddArticle() {
       .catch((err) => console.error("Kunde inte hämta kundlista", err));
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!articleNumber || !selectedCustomerId) {
@@ -25,20 +26,28 @@ function AddArticle() {
       return;
     }
 
-    axios
-      .post(`${API_BASE}/api/articles`, {
+    try {
+      // check if article already exists
+      const existsRes = await axios.get(`${API_BASE}/api/articles/exists?q=${articleNumber}`);
+      if (existsRes.data.exists) {
+        setStatus("✅ Artikeln finns redan — öppnar den nu...");
+        setTimeout(() => navigate(`/instructions/${articleNumber}`), 800);
+        return;
+      }
+
+      // create new one if not exists
+      const res = await axios.post(`${API_BASE}/api/articles`, {
         articleNumber,
         customerId: selectedCustomerId,
-      })
-      .then(() => {
-        setStatus("✅ Artikeln har lagts till!");
-        setArticleNumber("");
-        setSelectedCustomerId("");
-      })
-      .catch((err) => {
-        console.error("Failed to add article", err);
-        setStatus("❌ Kunde inte lägga till artikel.");
       });
+
+      setStatus("✅ Artikeln har lagts till! - öppnar den nu...");
+      setTimeout(() => navigate(`/instructions/${articleNumber}`), 800);
+
+    } catch (err) {
+      console.error("Failed to add article", err);
+      setStatus("❌ Kunde inte lägga till artikel.");
+    }
   };
 
   return (
