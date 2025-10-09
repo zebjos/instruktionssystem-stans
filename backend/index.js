@@ -111,7 +111,7 @@ app.post("/api/upload", upload.array("files"), async (req, res) => {
   }
 });
 
-// Get instructions and media file paths for a given article number
+// Get instructions and media file paths for a given article number ( SAFE UPDATED VERSION !!!)
 app.get("/api/instructions/:articleNumber", (req, res) => {
   const articleNumber = req.params.articleNumber.toUpperCase();
   console.log("Looking up article:", articleNumber);
@@ -137,21 +137,37 @@ app.get("/api/instructions/:articleNumber", (req, res) => {
       return res.status(404).json({ error: "Article not found in the system" });
     }
 
-    const { customer, hang_comment, pack_comment, hang_created_by, pack_created_by, hang_updated_at, pack_updated_at } = result;
+    const {
+      customer,
+      hang_comment,
+      pack_comment,
+      hang_created_by,
+      pack_created_by,
+      hang_updated_at,
+      pack_updated_at,
+    } = result;
 
-    // Build file path to image/video folders
     const basePath = path.join(ROOT_PATH, customer, "bilder");
+
+    // ✅ Safer matching so "MALL_IFYLLD" ≠ "MALL_IFYLLD2"
+    const fileMatchesArticle = (filename, article) => {
+      const regex = new RegExp(`^${article}(?:_|\\.|$)`, "i");
+      return regex.test(filename);
+    };
 
     const loadFiles = (subfolder) => {
       const dir = path.join(basePath, subfolder);
-      console.log("Looking in:", JSON.stringify(dir));
+      console.log("Looking in:", dir);
       if (!fs.existsSync(dir)) {
         console.warn("Directory does not exist:", dir);
         return [];
       }
-      const files = fs.readdirSync(dir)
-        .filter(f => f.startsWith(articleNumber));
-      return files.map(f => `/media/${customer}/bilder/${subfolder}/${f}`);
+
+      const files = fs
+        .readdirSync(dir)
+        .filter((f) => fileMatchesArticle(f, articleNumber));
+
+      return files.map((f) => `/media/${customer}/bilder/${subfolder}/${f}`);
     };
 
     res.json({
@@ -163,11 +179,13 @@ app.get("/api/instructions/:articleNumber", (req, res) => {
       hang_created_by,
       pack_created_by,
       hang_updated_at,
-      pack_updated_at
+      pack_updated_at,
     });
   } catch (err) {
     console.error("Database error:", err.message);
-    return res.status(500).json({ error: "Internal server error", detail: err.message });
+    return res
+      .status(500)
+      .json({ error: "Internal server error", detail: err.message });
   }
 });
 
@@ -268,7 +286,7 @@ app.post("/api/customers", (req, res) => {
 });
 
 
-// Get list of all articles with associated customer names
+// Get list of all articles with associated customer names ( SAFE UPDATED VERSION !!! )
 app.get("/api/articles", (req, res) => {
   try {
     const articles = db.prepare(`
@@ -287,6 +305,12 @@ app.get("/api/articles", (req, res) => {
       ORDER BY customer ASC
     `).all();
 
+    // ✅ Helper: Match exakt artikelnummer
+    const fileMatchesArticle = (filename, article) => {
+      const regex = new RegExp(`^${article}(?:_|\\.|$)`, "i");
+      return regex.test(filename);
+    };
+
     const withMediaCounts = articles.map(article => {
       const customerPath = path.join(ROOT_PATH, article.customer, "bilder");
 
@@ -294,7 +318,7 @@ app.get("/api/articles", (req, res) => {
         const dir = path.join(customerPath, subfolder);
         if (!fs.existsSync(dir)) return 0;
 
-        return fs.readdirSync(dir).filter(f => f.startsWith(article.article_number)).length;
+        return fs.readdirSync(dir).filter(f => fileMatchesArticle(f, article.article_number)).length;
       };
 
       const hangMedia = countFiles("hängning");
@@ -363,8 +387,7 @@ app.delete("/api/customers/:id", (req, res) => {
 });
 
 
-// Export all articles as a CSV file
-
+// Export all articles as a CSV file ( SAFE UPDATED VERSION !!! )
 app.get("/api/export/articles", (req, res) => {
   try {
     const articles = db.prepare(`
@@ -379,14 +402,19 @@ app.get("/api/export/articles", (req, res) => {
       JOIN customer c ON a.customer_id = c.customer_id
     `).all();
 
-    // Lägg till media_count
+    // ✅ Helper: Exakt matchning även här
+    const fileMatchesArticle = (filename, article) => {
+      const regex = new RegExp(`^${article}(?:_|\\.|$)`, "i");
+      return regex.test(filename);
+    };
+
     const withMediaCounts = articles.map(article => {
       const customerPath = path.join(ROOT_PATH, article.customer, "bilder");
 
       const countFiles = (subfolder) => {
         const dir = path.join(customerPath, subfolder);
         if (!fs.existsSync(dir)) return 0;
-        return fs.readdirSync(dir).filter(f => f.startsWith(article.article_number)).length;
+        return fs.readdirSync(dir).filter(f => fileMatchesArticle(f, article.article_number)).length;
       };
 
       const hangCount = countFiles("hängning");
@@ -399,7 +427,6 @@ app.get("/api/export/articles", (req, res) => {
       };
     });
 
-    // Definiera kolumner i CSV
     const fields = [
       "article_id",
       "article_number",
